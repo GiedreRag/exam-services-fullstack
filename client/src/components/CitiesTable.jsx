@@ -3,7 +3,29 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useContext } from "react";
 
 export function CitiesTable() {
-    const { cities } = useContext(GlobalContext); 
+    const { cities, deleteCity } = useContext(GlobalContext); 
+
+    function deleteCityHandler(title) {
+        const isConfirmed = window.confirm("Ar tikrai norite pasalinti si miesta?");
+    
+        if (!isConfirmed) return;
+
+        fetch('http://localhost:3001/api/cities/' + title, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+            },
+            credentials: 'include',
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    deleteCity(title);
+                }
+            })
+            .catch();
+
+    }
 
     return (
         <div className="container" >
@@ -22,8 +44,8 @@ export function CitiesTable() {
                                 <td>{idx + 1}</td>
                                 <td>{city}</td>
                                 <td>
-                                    <Link className="btn btn-primary py-2 me-2" >Koreguoti</Link>
-                                    <button className="btn btn-danger py-2" type='button'>Pašalinti</button>
+                                    <Link className="btn btn-primary py-2 me-2" to={`/paskyra/koreguoti-forma/miestu-sarasas/${city}/koreguoti`}>Koreguoti</Link>
+                                    <button className="btn btn-danger py-2" onClick={() => deleteCityHandler(city)} type='button'>Pašalinti</button>
                                 </td>
                             </tr>
                         ))
