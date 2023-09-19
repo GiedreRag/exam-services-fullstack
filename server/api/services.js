@@ -51,7 +51,7 @@ services.post('/', async (req, res) => {
         const cityId = cityResArray[0].id;
 
         const insertQuery = `INSERT INTO services
-                (user_id, title, img, city)
+                (user_id, title, img, city_id)
                 VALUES (?, ?, ?, ?);`;
         const insertRes = await connection.execute(insertQuery, 
             [id, title, img, cityId]);
