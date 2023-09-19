@@ -12,7 +12,9 @@ export const initialContext = {
     cities: [],
     addCity: () => { },
     updateCity: () => { },
-    updateCities: () => { }
+    updateCities: () => { },
+    changeCity: () => { },
+    deleteCity: () => { },
 };
 
 export const GlobalContext = createContext(initialContext);
@@ -89,6 +91,14 @@ export const ContextWrapper = (props) => {
         setCities(pre => [...pre, city]);
     }
 
+    function deleteCity(city) {
+        setCities(pre => pre.filter(title => title !== city));
+    }
+
+    function changeCity(oldCityName, newCityName) {
+        setCities(pre => pre.map(title => title === oldCityName ? newCityName : title));
+    }
+
     const value = {
         loginStatus,
         updateLoginStatus,
@@ -101,6 +111,8 @@ export const ContextWrapper = (props) => {
         cities,
         addCity,
         updateCities,
+        deleteCity,
+        changeCity,
     };
 
     return (

@@ -12,6 +12,7 @@ import { NotAllowed } from './components/NotAllowed';
 import { UpdateForm } from './pages/accounts/admin/UpdateForm';
 import { AdminCitiesList } from './pages/cities/AdminCitiesList';
 import { AdminNewCity } from './pages/cities/AdminNewCity';
+import { AdminEditCity } from './pages/cities/AdminEditCity';
 
 function App() {
   return (
@@ -20,16 +21,17 @@ function App() {
         <Routes>
           <Route Component={PublicLayout}>
             <Route index path='/' element={<Home />}></Route>
-            <Route index path='/registracija' element={<Register />}></Route>
-            <Route index path='/taisykles' element={<Terms />}></Route>
-            <Route index path='/prisijungimas' element={<Login />}></Route>
-            <Route index path='/nepasiekiamas-puslapis' element={<NotAllowed />}></Route>
+            <Route path='/registracija' element={<Register />}></Route>
+            <Route path='/taisykles' element={<Terms />}></Route>
+            <Route path='/prisijungimas' element={<Login />}></Route>
+            <Route path='/nepasiekiamas-puslapis' element={<NotAllowed />}></Route>
           </Route>
           <Route Component={UserLayout}>
-            <Route index path='/paskyra' element={<Account />}></Route>
-            <Route index path='/paskyra/koreguoti-forma' element={<UpdateForm />}></Route>
-            <Route index path='/paskyra/koreguoti-forma/miestu-sarasas' element={<AdminCitiesList />}></Route>
-            <Route index path='/paskyra/koreguoti-forma/miestu-sarasas/naujas' element={<AdminNewCity />}></Route>
+            <Route path='/paskyra' element={<Account />}></Route>
+            <Route path='/paskyra/koreguoti-forma' element={<UpdateForm />}></Route>
+            <Route path='/paskyra/koreguoti-forma/miestu-sarasas' element={<AdminCitiesList />}></Route>
+            <Route path='/paskyra/koreguoti-forma/miestu-sarasas/naujas' element={<AdminNewCity />}></Route>
+            <Route path='/paskyra/koreguoti-forma/miestu-sarasas/:city/koreguoti' element={<AdminEditCity />}></Route>
           </Route>
           <Route Component={PublicLayout}>
             <Route path='*' element={<Page404 />}></Route>
