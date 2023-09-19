@@ -13,6 +13,7 @@ import { UpdateForm } from './pages/accounts/admin/UpdateForm';
 import { AdminCitiesList } from './pages/cities/AdminCitiesList';
 import { AdminNewCity } from './pages/cities/AdminNewCity';
 import { AdminEditCity } from './pages/cities/AdminEditCity';
+import { Services } from './pages/allServices/Services';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path='/paskyra/koreguoti-forma/miestu-sarasas' element={<AdminCitiesList />}></Route>
             <Route path='/paskyra/koreguoti-forma/miestu-sarasas/naujas' element={<AdminNewCity />}></Route>
             <Route path='/paskyra/koreguoti-forma/miestu-sarasas/:city/koreguoti' element={<AdminEditCity />}></Route>
+            <Route path='/paskyra/skelbimai' element={<Services />}></Route>
           </Route>
           <Route Component={PublicLayout}>
             <Route path='*' element={<Page404 />}></Route>
