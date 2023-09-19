@@ -1,10 +1,12 @@
 import style from '../components/Form.module.css';
 import style2 from '../components/Button.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { GlobalContext } from '../context/GlobalContext';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 export function Login() {
+    const { updateEmail, updateFullname, updateLoginStatus, updateRole } = useContext(GlobalContext);
     const navigate = useNavigate();
     const [formErr, setFormErr] = useState('');
     const [email, setEmail] = useState('');
@@ -15,11 +17,11 @@ export function Login() {
     const [passwordValid, setPasswordValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    function updateEmail(e) {
+    function updateEmailHandler(e) {
         setEmail(e.target.value);
     }
 
-    function updatePassword(e) {
+    function updatePasswordHandler(e) {
         setPassword(e.target.value);
     }
 
@@ -101,7 +103,11 @@ export function Login() {
                         }
                     }
                     if (data.status === 'ok') {
-                        return navigate('/paskyra');
+                        updateLoginStatus(true);
+                        updateEmail(data.user.email);
+                        updateFullname(data.user.fullname);
+                        updateRole(data.user.role);
+                        navigate('/paskyra');
                     }
                 })
                 .catch(err => console.error(err));
@@ -115,13 +121,13 @@ export function Login() {
                 <form className={style.form} onSubmit={submitHandler}>
                 {formErr && <div className="alert alert-danger">{formErr}</div>}
                     <div>
-                        <input onChange={updateEmail} onBlur={isValidEmail} autoComplete="on" value={email} id='email' type="email" required
+                        <input onChange={updateEmailHandler} onBlur={isValidEmail} autoComplete="on" value={email} id='email' type="email" required
                             className={`form-control ${emailErr ? 'is-invalid' : ''} ${emailValid ? 'is-valid' : ''}`} />
                         <label htmlFor="email">Elektroninis paštas</label>
                         <div className="invalid-feedback">{emailErr}</div>
                     </div>
                     <div>
-                        <input onChange={updatePassword} onBlur={isValidPassword} autoComplete="off" value={password} id='password' type={showPassword ? 'text' : 'password'} required
+                        <input onChange={updatePasswordHandler} onBlur={isValidPassword} autoComplete="off" value={password} id='password' type={showPassword ? 'text' : 'password'} required
                             className={`form-control ${passwordErr ? 'is-invalid' : ''} ${passwordValid ? 'is-valid' : ''}`} />
                         <label className="me-2" htmlFor="password">Slaptažodis</label>
                         <div className="invalid-feedback">{passwordErr}</div>
