@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import { DB_DATABASE, DB_HOST, DB_PASS, DB_USER } from './env.js';
 import { hash } from './lib/hash.js';
 
-const database_reset = false;
+const database_reset = true;
 
 async function dbSetup() {
     let connection = await mysql.createConnection({
@@ -22,6 +22,7 @@ async function dbSetup() {
         await rolesTable(connection);
         await usersTable(connection);
         await tokensTable(connection);
+        await citiesTable(connection);
 
         await generateRoles(connection);
         await generateUsers(connection);
@@ -80,6 +81,21 @@ async function rolesTable(db) {
         await db.execute(sql);
     } catch (error) {
         console.log("Couldn't create roles table.");
+        console.log(error);
+        throw error;
+    }
+}
+
+async function citiesTable(db) {
+    try {
+        const sql = `CREATE TABLE cities (
+                        id int(3) NOT NULL AUTO_INCREMENT,
+                        title varchar(30) NOT NULL,
+                        PRIMARY KEY (id)
+                    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci`;
+        await db.execute(sql);
+    } catch (error) {
+        console.log("Couldn't create cities table.");
         console.log(error);
         throw error;
     }

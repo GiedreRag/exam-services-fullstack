@@ -9,6 +9,8 @@ import { Register } from './pages/Register';
 import { Terms } from './pages/Terms';
 import { Login } from './pages/Login';
 import { NotAllowed } from './components/NotAllowed';
+import { UpdateForm } from './pages/accounts/admin/UpdateForm';
+import { AdminCitiesList } from './pages/cities/AdminCitiesList';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           </Route>
           <Route Component={UserLayout}>
             <Route index path='/paskyra' element={<Account />}></Route>
+            <Route index path='/paskyra/koreguoti-forma' element={<UpdateForm />}></Route>
+            <Route index path='/paskyra/koreguoti-forma/miestu-sarasas' element={<AdminCitiesList />}></Route>
           </Route>
           <Route Component={PublicLayout}>
             <Route path='*' element={<Page404 />}></Route>
