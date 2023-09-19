@@ -15,6 +15,8 @@ export const initialContext = {
     updateCities: () => { },
     changeCity: () => { },
     deleteCity: () => { },
+    services: [],
+    updateServices: () => { },
 };
 
 export const GlobalContext = createContext(initialContext);
@@ -25,6 +27,7 @@ export const ContextWrapper = (props) => {
     const [fullname, setFullname] = useState(initialContext.fullname);
     const [email, setEmail] = useState(initialContext.email);
     const [cities, setCities] = useState(initialContext.cities);
+    const [services, setServices] = useState(initialContext.services);
 
     useEffect(() => {
         fetch('http://localhost:3001/api/login', {
@@ -99,6 +102,10 @@ export const ContextWrapper = (props) => {
         setCities(pre => pre.map(title => title === oldCityName ? newCityName : title));
     }
 
+    function updateServices(services) {
+        setServices(services);
+    }
+
     const value = {
         loginStatus,
         updateLoginStatus,
@@ -113,6 +120,8 @@ export const ContextWrapper = (props) => {
         updateCities,
         deleteCity,
         changeCity,
+        services,
+        updateServices,
     };
 
     return (

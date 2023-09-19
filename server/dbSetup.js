@@ -23,6 +23,7 @@ async function dbSetup() {
         await usersTable(connection);
         await tokensTable(connection);
         await citiesTable(connection);
+        await servicesTable(connection);
 
         await generateRoles(connection);
         await generateUsers(connection);
@@ -97,6 +98,29 @@ async function citiesTable(db) {
         await db.execute(sql);
     } catch (error) {
         console.log("Couldn't create cities table.");
+        console.log(error);
+        throw error;
+    }
+}
+
+async function servicesTable(db) {
+    try {
+        const sql = `CREATE TABLE services (
+                        id int(10) NOT NULL AUTO_INCREMENT,
+                        title varchar(60) NOT NULL,
+                        img varchar(200) NOT NULL,
+                        city_id int(3) NOT NULL,
+                        user_id int(3) NOT NULL,
+                        createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+                        PRIMARY KEY (id),
+                        KEY city_id (city_id),
+                        KEY user_id (user_id),
+                        CONSTRAINT services_ibfk_1 FOREIGN KEY (city_id) REFERENCES cities (id),
+                        CONSTRAINT services_ibfk_2 FOREIGN KEY (user_id) REFERENCES users (id)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci`;
+        await db.execute(sql);
+    } catch (error) {
+        console.log("Couldn't create services table.");
         console.log(error);
         throw error;
     }

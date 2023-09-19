@@ -10,7 +10,7 @@ export function AdminAccount() {
                     </div>
                     <h4 className="fs-2 text-body-emphasis">Visi servizai</h4>
                     <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                    <Link to="/paskyra/skelbimai" className="icon-link">Peržiūrėti</Link>
+                    <Link to="/paskyra/servizai" className="icon-link">Peržiūrėti</Link>
                 </div>
                 <div className="feature col">
                     <div className="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
