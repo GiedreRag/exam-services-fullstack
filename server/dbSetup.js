@@ -21,6 +21,7 @@ async function dbSetup() {
     if (database_reset) {
         await rolesTable(connection);
         await usersTable(connection);
+        await tokensTable(connection);
 
         await generateRoles(connection);
         await generateUsers(connection);
@@ -45,6 +46,25 @@ async function usersTable(db) {
         await db.execute(sql);
     } catch (error) {
         console.log("Couldn't create users table.");
+        console.log(error);
+        throw error;
+    }
+}
+
+async function tokensTable(db) {
+    try {
+        const sql = `CREATE TABLE tokens (
+                        id int(10) NOT NULL AUTO_INCREMENT,
+                        token varchar(40) NOT NULL,
+                        user_id int(10) NOT NULL,
+                        createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+                        PRIMARY KEY (id),
+                        KEY user_id (user_id),
+                        CONSTRAINT tokens_ibfk_1 FOREIGN KEY (user_id) REFERENCES users (id)
+                    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci`;
+        await db.execute(sql);
+    } catch (error) {
+        console.log("Couldn't create tokens table.");
         console.log(error);
         throw error;
     }

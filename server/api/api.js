@@ -1,5 +1,6 @@
 import express from 'express';
 import { register } from './register.js';
+import { login } from './login.js';
 
 export const api = express.Router();
 
@@ -10,3 +11,4 @@ api.all('/', (_req, res) => {
 });
 
 api.use('/register', register);
+api.use('/login', login);
