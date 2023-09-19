@@ -1,0 +1,32 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 0rem;
+}
+
+.form {
+    padding: 2.1rem 1rem;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+.form input {
+    width: 100%;
+    padding: 1em 2em;
+    font-size: 1.2em;
+    border-radius: 1rem;
+}
+
+.termsText {
+    color: #000;
+    width: auto;
+}
+
+.termsText:hover {
+    color: #ea0e68;
+}
