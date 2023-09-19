@@ -40,7 +40,9 @@ login.post('/', async (req, res) => {
     }
 
     try {
-        const selectQuery = `SELECT * FROM users WHERE email = ? AND password_hash = ?;`;
+        const selectQuery = `SELECT users.id, users.fullname, users.email, roles.role FROM users
+                            INNER JOIN roles ON roles.id = users.role_id
+                            WHERE email = ? AND password_hash = ?;`;
         const selectRes = await connection.execute(selectQuery, [email, hash(password)]);
         const users = selectRes[0];
 
@@ -50,7 +52,7 @@ login.post('/', async (req, res) => {
                 errors: [
                     {
                         input: 'email',
-                        msg: 'Toks email arba slaptazodis neegzistuoja. Pabandykite dar karta.'
+                        msg: 'Toks email arba slaptažodis neegzistuoja. Pabandykite dar karta.'
                     }
                 ]
             });
@@ -95,6 +97,55 @@ login.post('/', async (req, res) => {
             msg: 'POST: LOGIN API - server error.',
         });
     }
+});
+
+login.get('/', async (req, res) => {
+    const { userToken } = req.cookies;
+
+    if (!userToken) {
+        return res.status(200).json({
+            status: 'err',
+            msg: 'You are not logged in.',
+        });
+    }
+
+    try {
+        const selectQuery = `SELECT users.fullname, users.email, roles.role FROM tokens
+                            INNER JOIN users ON tokens.user_id = users.id
+                            INNER JOIN roles ON users.role_id = roles.id
+                            WHERE token = ?;`;
+        const selectRes = await connection.execute(selectQuery, [userToken]);
+        const users = selectRes[0];
+
+        if (users.length === 0) {
+            const cookie = [
+                'userToken=' + userToken,
+                'path=/',
+                'domain=localhost',
+                'max-age=-1',
+                // 'Secure',
+                'SameSite=Lax',
+                'HttpOnly',
+            ];
+            return res.status(200).set('Set-Cookie', cookie.join('; ')).json({
+                status: 'ok',
+                msg: 'Session deleted',
+            });
+        }
+
+        return res.status(200).json({
+            status: 'ok',
+            user: users[0],
+        });
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            status: 'err',
+            msg: 'Server error.',
+        });
+    }
+
 });
 
 login.use((_req, res, _next) => {
