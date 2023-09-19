@@ -1,10 +1,19 @@
+import { useContext } from "react";
+import { AdminAccount } from "./admin/AdminAccount";
+import { GlobalContext } from "../../context/GlobalContext";
+import { SellerAccount } from "./seller/SellerAccount";
+import { Login } from "../Login";
+
 export function Account() {
-    return (
-        <div className="container">
-            <div className="row">
-                <h4 className="col-12 display-1 text-center">Sveiki!</h4>
-                <p className="col-12 display-6 text-center">Vartotojo paskyra</p>
-            </div>
-        </div>
-    )
+    const { role } = useContext(GlobalContext);
+
+    if (role === 'admin') {
+        return <AdminAccount />;
+    }
+
+    if (role === 'seller') {
+        return <SellerAccount />;
+    }
+
+    return <Login />;
 }
