@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import { DB_DATABASE, DB_HOST, DB_PASS, DB_USER } from './env.js';
 import { hash } from './lib/hash.js';
 
-const database_reset = true;
+const database_reset = false;
 
 async function dbSetup() {
     let connection = await mysql.createConnection({
@@ -26,6 +26,7 @@ async function dbSetup() {
 
         await generateRoles(connection);
         await generateUsers(connection);
+        await generateCities(connection);
     }
 
     return connection;
@@ -121,6 +122,18 @@ async function generateUsers(db) {
         await db.execute(sql);
     } catch (error) {
         console.log("Couldn't create users into a users' table.");
+        console.log(error);
+        throw error;
+    }
+}
+
+
+async function generateCities(db) {
+    try {
+        const sql = `INSERT INTO cities (title) VALUES ('Vilnius'), ('Kaunas'), ('Klaipėda'), ('Panevėžys'), ('Šiauliai');`;
+        await db.execute(sql);
+    } catch (error) {
+        console.log("Couldn't create cities into a cities' table.");
         console.log(error);
         throw error;
     }

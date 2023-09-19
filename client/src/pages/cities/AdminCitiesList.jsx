@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { NotAllowed } from "../../components/NotAllowed";
 import { Link } from "react-router-dom";
+import { CitiesTable } from "../../components/CitiesTable";
 
 export function AdminCitiesList() {
     const { role } = useContext(GlobalContext);
@@ -17,10 +18,10 @@ export function AdminCitiesList() {
                     Miestai
                 </h4>
                 <div>
-                    <Link to='/paskyra/koreguoti-forma/miestu-sarasas/naujas'>Prideti nauja</Link>
+                    <Link to='/paskyra/koreguoti-forma/miestu-sarasas/naujas'>Pridėti naują</Link>
                 </div>
                 <div className="col-12">
-                    Miestu lentele
+                    <CitiesTable />
                 </div>
             </div>
         </div>
