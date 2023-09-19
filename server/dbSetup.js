@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import { DB_DATABASE, DB_HOST, DB_PASS, DB_USER } from './env.js';
 import { hash } from './lib/hash.js';
 
-const database_reset = true;
+const database_reset = false;
 
 async function dbSetup() {
     let connection = await mysql.createConnection({
@@ -87,7 +87,7 @@ async function rolesTable(db) {
 
 async function generateRoles(db) {
     try {
-        const sql = `INSERT INTO roles (role) VALUES ('admin'), ('user');`;
+        const sql = `INSERT INTO roles (role) VALUES ('admin'), ('seller');`;
         await db.execute(sql);
     } catch (error) {
         console.log("Couldn't create roles into a role' table.");
