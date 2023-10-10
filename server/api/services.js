@@ -51,7 +51,7 @@ services.post('/', async (req, res) => {
         const cityId = cityResArray[0].id;
 
         const insertQuery = `INSERT INTO services
-                (user_id, title, img, city)
+                (user_id, title, img, city_id)
                 VALUES (?, ?, ?, ?);`;
         const insertRes = await connection.execute(insertQuery, 
             [id, title, img, cityId]);
@@ -114,6 +114,41 @@ services.get('/users', async (req, res) => {
         });
     }
 
+});
+
+services.delete('/:serviceId', async (req, res) => {
+    const { serviceId } = req.params;
+    const { role } = req.user;
+
+    if (role !== 'seller') {
+        return res.status(401).json({
+            status: 'err',
+            msg: 'You are not a seller.',
+        });
+    }
+
+    try {
+        const deleteQuery = `DELETE FROM services WHERE services.id = ?;`;
+        const deleteRes = await connection.execute(deleteQuery, [serviceId]);
+        const services = deleteRes[0];
+
+        if (services.affectedRows > 0) {
+            return res.status(200).json({
+                status: 'ok',
+                msg: 'Service deleted.',
+            });
+        } else {
+            return res.status(400).json({
+                status: 'err',
+                msg: 'Service not found, nothing deleted.',
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            status: 'err',
+            msg: 'DELETE: SERVICES API - server error.',
+        });
+    }
 });
 
 services.use((_req, res, _next) => {

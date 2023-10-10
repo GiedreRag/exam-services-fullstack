@@ -23,7 +23,7 @@ export function AddService() {
         const formData = new FormData();
         formData.append('serviceImg_img', e.target.files[0]);
 
-        fetch('http://localhost:3001/api/upload/serviceImg', {
+        fetch('http://localhost:3001/api/upload/service', {
             method: 'POST',
             body: formData,
         })
@@ -123,7 +123,7 @@ export function AddService() {
                 </div>
                 <form onSubmit={submitHandler} className="col-12 col-sm-8">
                     <div className="row mb-3">
-                        <img src={img ? img : defaultImg} alt="skelbimas" className="col-12 p-0 mb-3"
+                        <img src={img ? img : defaultImg} alt="servizas" className="col-12 p-0 mb-3"
                             style={img ? imgStyle : defaultImgStyle} />
                         <label className="col-12 col-md-4 form-label" htmlFor="image">Nuotrauka</label>
                         <div className="col-12 col-md-8">

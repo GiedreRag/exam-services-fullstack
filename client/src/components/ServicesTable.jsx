@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 
 export function ServicesTable( { role }) {
-    const { services, updateServices } = useContext(GlobalContext); 
+    const { services, updateServices, deleteService } = useContext(GlobalContext); 
 
     useEffect(() => {
         fetch('http://localhost:3001/api/services/users', {
@@ -21,6 +21,27 @@ export function ServicesTable( { role }) {
             })
             .catch(console.error);
     }, []);
+
+    function deleteServiceHandler(id) {
+        const isConfirmed = window.confirm("Ar tikrai norite pasalinti si serviza?");
+    
+        if (!isConfirmed) return;
+
+        fetch('http://localhost:3001/api/services/' + id, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+            },
+            credentials: 'include',
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    deleteService(id);
+                }
+            })
+            .catch();
+    }
 
     const imageStyle = {
         width: 50,
@@ -57,7 +78,7 @@ export function ServicesTable( { role }) {
                                         <div className="d-flex justify-content-end">
                                             {role === 'admin' && <Link className="btn btn-outline-primary me-2">Blokuoti</Link>}
                                             {role === 'seller' && <Link className="btn btn-outline-primary me-2">Koreguoti</Link>}
-                                            {role === 'seller' && <button className="btn btn-outline-danger me-2">Ištrinti</button>}
+                                            {role === 'seller' && <button className="btn btn-outline-danger me-2" onClick={() => deleteServiceHandler(service.id)}>Ištrinti</button>}
                                         </div> 
                                     </td>
                                 </tr>

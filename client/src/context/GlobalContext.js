@@ -17,6 +17,7 @@ export const initialContext = {
     deleteCity: () => { },
     services: [],
     updateServices: () => { },
+    deleteService: () => { },
 };
 
 export const GlobalContext = createContext(initialContext);
@@ -106,6 +107,10 @@ export const ContextWrapper = (props) => {
         setServices(services);
     }
 
+    function deleteService(id) {
+        setServices(prevServices => prevServices.filter(service => service.id !== id));
+    }
+
     const value = {
         loginStatus,
         updateLoginStatus,
@@ -122,6 +127,7 @@ export const ContextWrapper = (props) => {
         changeCity,
         services,
         updateServices,
+        deleteService,
     };
 
     return (

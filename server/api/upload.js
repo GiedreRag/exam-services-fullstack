@@ -4,27 +4,27 @@ import multer from 'multer';
 
 export const upload = express.Router();
 
-const serviceStorage = multer.diskStorage({
+const serviceImgStorage = multer.diskStorage({
     destination: (_req, _file, cb) => {
-        cb(null, 'public/images/service');
+        cb(null, 'public/images/serviceImg');
     },
     filename: (_req, file, cb) => {
-        cb(null, 'service_' + Date.now() + path.extname(file.originalname));
+        cb(null, 'serviceImg_' + Date.now() + path.extname(file.originalname));
     },
 });
 
-const serviceUpload = multer({
-    storage: serviceStorage,
+const serviceImgUpload = multer({
+    storage: serviceImgStorage,
     limits: {
         fileSize: 1e7,
     },
 });
 
-upload.use('/service', serviceUpload.single('service_img'), (req, res) => {
+upload.use('/service', serviceImgUpload.single('serviceImg_img'), (req, res) => {
     return res.status(201).json({
         status: 'ok',
         msg: 'Upload complete.',
-        path: 'images/service/' + req.file.filename,
+        path: 'images/serviceImg/' + req.file.filename,
     });
 });
 
