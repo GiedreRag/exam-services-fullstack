@@ -15,6 +15,7 @@ import { AdminNewCity } from './pages/cities/AdminNewCity';
 import { AdminEditCity } from './pages/cities/AdminEditCity';
 import { Services } from './pages/allServices/Services';
 import { AddService } from './pages/allServices/AddService';
+import { EditService } from './pages/allServices/EditService';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path='/paskyra/koreguoti-forma/miestu-sarasas/:city/koreguoti' element={<AdminEditCity />}></Route>
             <Route path='/paskyra/servizai' element={<Services />}></Route>
             <Route path='/paskyra/servizai/naujas' element={<AddService />}></Route>
+            <Route path='/paskyra/servizai/:serviceId/koreguoti' element={<EditService />}></Route>
           </Route>
           <Route Component={PublicLayout}>
             <Route path='*' element={<Page404 />}></Route>

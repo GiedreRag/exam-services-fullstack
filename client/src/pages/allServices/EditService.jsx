@@ -1,19 +1,42 @@
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalContext";
 import defaultImg from '../../assets/default-bg.png';
 import { NotAllowed } from "../../components/NotAllowed";
 
-export function AddService() {
+export function EditService() {
     const navigate = useNavigate();
+    const { serviceId } = useParams();
     const { role, cities } = useContext(GlobalContext);
 
+    const [service, setService] = useState(null);
     const [img, setImg] = useState('');
     const [imgErr, setImgErr] = useState('');
     const [title, setTitle] = useState('');
     const [titleErr, setTitleErr] = useState('');
     const [city, setCity] = useState('');
     const [cityErr, setCityErr] = useState('');
+
+    useEffect(() => {
+        fetch('http://localhost:3001/api/services/' + serviceId, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+            },
+            credentials: 'include',
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    setService(data.service);
+                    const service = data.service;
+                    setImg(service.img);
+                    setTitle(service.title);
+                    setCity(service.city);
+                }
+            })
+            .catch(console.error);
+    }, []);
 
     if (role !== 'seller') {
         return <NotAllowed />;
@@ -48,7 +71,7 @@ export function AddService() {
         }
 
         if (title.length > maxSize) {
-            return `Per ilgas pavadinimas. Max leidziama ${maxSize} simboliai.`;
+            return `Per ilgas pavadinimas. Max leidžiama ${maxSize} simboliai.`;
         }
 
         return '';
@@ -56,7 +79,7 @@ export function AddService() {
 
     function cityValidity() {
         if (!cities.includes(city)) {
-            return 'Reikia nurodyti miesta.';
+            return 'Reikia nurodyti miestą.';
         }
 
         return '';
@@ -82,8 +105,8 @@ export function AddService() {
             return;
         }
 
-        fetch('http://localhost:3001/api/services', {
-            method: 'POST',
+        fetch('http://localhost:3001/api/services/' + serviceId, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -119,7 +142,7 @@ export function AddService() {
         <div className="container">
             <div className="row">
                 <div className="col-12">
-                    <h3>Naujas servizas</h3>
+                    <h3>Koreguoti serviza</h3>
                 </div>
                 <form onSubmit={submitHandler} className="col-12 col-sm-8">
                     <div className="row mb-3">
@@ -154,7 +177,8 @@ export function AddService() {
                         </div>
                     </div>
                     <hr />
-                    <button className="btn btn-primary py-2" type="submit">Sukurti</button>
+                    <button className="btn btn-primary py-2 me-2" type="submit">Pakeisti</button>
+                    <Link className="btn btn-danger py-2" to="/paskyra/servizai" type="submit">Atšaukti</Link>
                 </form>
             </div>
         </div>

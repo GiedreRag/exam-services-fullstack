@@ -77,7 +77,7 @@ export function ServicesTable( { role }) {
                                     <td>
                                         <div className="d-flex justify-content-end">
                                             {role === 'admin' && <Link className="btn btn-outline-primary me-2">Blokuoti</Link>}
-                                            {role === 'seller' && <Link className="btn btn-outline-primary me-2">Koreguoti</Link>}
+                                            {role === 'seller' && <Link className="btn btn-outline-primary me-2" to={`/paskyra/servizai/${service.id}/koreguoti`}>Koreguoti</Link>}
                                             {role === 'seller' && <button className="btn btn-outline-danger me-2" onClick={() => deleteServiceHandler(service.id)}>Ištrinti</button>}
                                         </div> 
                                     </td>

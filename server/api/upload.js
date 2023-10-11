@@ -31,7 +31,7 @@ upload.use('/service', serviceImgUpload.single('serviceImg_img'), (req, res) => 
 upload.use('/', (_req, res) => {
     return res.status(400).json({
         status: 'err',
-        msg: 'Upsupported "Upload" route.',
+        msg: 'Unsupported "Upload" route.',
         options: [
             'http://localhost:3001/api/upload/service',
         ],
