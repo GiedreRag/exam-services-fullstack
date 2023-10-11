@@ -28,6 +28,7 @@ async function dbSetup() {
         await generateRoles(connection);
         await generateUsers(connection);
         await generateCities(connection);
+        await generateServices(connection);
     }
 
     return connection;
@@ -142,7 +143,8 @@ async function generateUsers(db) {
         const sql = `INSERT INTO users (fullname, email, password_hash, role_id) 
                     VALUES ('Jonas Jonaitis', 'jonas@jonas.lt', '${hash('jonas@jonas.lt')}', 1),
                      ('Ona Onaite', 'ona@ona.lt', '${hash('ona@ona.lt')}', 2),
-                     ('Lukas Lukaitis', 'lukas@lukas.lt', '${hash('lukas@lukas.lt')}', 2);`;
+                     ('Lukas Lukaitis', 'lukas@lukas.lt', '${hash('lukas@lukas.lt')}', 2),
+                     ('Rokas Rokaitis', 'rokas@rokas.lt', '${hash('rokas@rokas.lt')}', 2);`;
         await db.execute(sql);
     } catch (error) {
         console.log("Couldn't create users into a users' table.");
@@ -158,6 +160,20 @@ async function generateCities(db) {
         await db.execute(sql);
     } catch (error) {
         console.log("Couldn't create cities into a cities' table.");
+        console.log(error);
+        throw error;
+    }
+}
+
+async function generateServices(db) {
+    try {
+        const sql = `INSERT INTO services (img, title, city_id, user_id) 
+                    VALUES ('http://localhost:3001/images/serviceImg/serviceImg_1697006216624.jpeg', 'Taisau gerai', 1, 2), 
+                    ('http://localhost:3001/images/serviceImg/serviceImg_1695126607269.jpg', 'Važiuoja', 2, 3),
+                    ('http://localhost:3001/images/serviceImg/serviceImg_1697005996306.png', 'Keturi ratai', 5, 4);`;
+        await db.execute(sql);
+    } catch (error) {
+        console.log("Couldn't create services into a services' table.");
         console.log(error);
         throw error;
     }
