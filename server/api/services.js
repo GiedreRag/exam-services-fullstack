@@ -77,6 +77,26 @@ services.post('/', async (req, res) => {
     }
 });
 
+services.get('/', async (req, res) => {
+    try {
+        const limit = req.query.limit ? parseInt(req.query.limit) : 3;
+        const selectQuery = `SELECT services.img, services.title, cities.title as city FROM services 
+                            INNER JOIN cities ON cities.id = services.city_id ORDER BY services.id DESC LIMIT ?;`;
+        const selectRes = await connection.execute(selectQuery, [limit]);
+        const services = selectRes[0];
+
+        return res.status(200).json({
+            status: 'ok',
+            list: services,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: 'err',
+            msg: 'GET: SERVICES API - server error.',
+        });
+    }
+});
+
 services.get('/users', async (req, res) => {
     const role = req.user.role;
     let selectQuery = '';
