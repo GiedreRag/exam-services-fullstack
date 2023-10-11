@@ -16,6 +16,7 @@ import { AdminEditCity } from './pages/cities/AdminEditCity';
 import { Services } from './pages/allServices/Services';
 import { AddService } from './pages/allServices/AddService';
 import { EditService } from './pages/allServices/EditService';
+import { AllServicesPublic } from './pages/allServices/AllServicesPublic';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Routes>
           <Route Component={PublicLayout}>
             <Route index path='/' element={<Home />}></Route>
+            <Route path='/visi-servizai' element={<AllServicesPublic />}></Route>
             <Route path='/registracija' element={<Register />}></Route>
             <Route path='/taisykles' element={<Terms />}></Route>
             <Route path='/prisijungimas' element={<Login />}></Route>
