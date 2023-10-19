@@ -102,16 +102,19 @@ The database is configured to create 'users', 'roles', and 'posters' tables with
 
 ### Admin can:
 
+- Update poster's form
+- See all posters
+
+### User can:
+
 - Update form
 - See all posters
 - Add new poster
 - Update/delete posters
-- See all users
 
-### User can:
+### Public can:
 
 - See all poster
-- Add like or not like on the poster
 
 ## Contributing
 
